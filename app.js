@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var swig = require('swig');
 var routes = require('./routes/');
+var wikiRouter = require('./routes/wiki');
+
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
@@ -22,6 +24,7 @@ app.use(morgan('dev'));
 // });
 
 app.use('/', routes);
+app.use('/wiki', wikiRouter);
 
 app.use(express.static(__dirname + '/public'));
 

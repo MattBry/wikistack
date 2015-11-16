@@ -14,6 +14,10 @@ var pageSchema = new mongoose.Schema({
   author:   {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
+pageSchema.virtual('route').get(function(){
+  return '/wiki/' + this.urlTitle;
+});
+
 var userSchema = new mongoose.Schema({
   name: {type: String, required: true},
   email: {type: String, required: true, unique: true}
