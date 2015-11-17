@@ -3,7 +3,18 @@
 {% block content %}
   <h3>Pages</h3>
   <hr>
-  <ul class="list-unstyled">
-    <!-- PLACEHOLDER LIST OF PAGES -->
+  <h4>Search pages by tags:</h4>
+  <form method="GET" action="/wiki/search">
+  	<input name="tags" type="text" placeholder="tag1 tag2">
+  	<button type="submit" class="btn btn-primary">search</button>
+  </form>
+{% if pages.length > 0 %}
+  <ul>
+    {% for page in pages %}
+      <li>{{ page | pageLink }}</li>
+    {% endfor %}
   </ul>
+{% else %}
+  There are no pages. Why don't you <a href='/wiki/add'>add one</a>?
+{% endif %}
 {% endblock %}

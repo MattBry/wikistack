@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var swig = require('swig');
+require('./filters')(swig);
 var routes = require('./routes/');
 var wikiRouter = require('./routes/wiki');
 

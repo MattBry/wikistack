@@ -12,7 +12,8 @@ var pageSchema = new mongoose.Schema({
   content:  {type: String, required: true},
   status:   {type: String, enum: ['open', 'closed']},
   date:     {type: Date, default: Date.now},
-  author:   {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  author:   {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  tags: {type: [String]}
 });
 
 pageSchema.virtual('route').get(function(){

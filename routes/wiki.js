@@ -22,6 +22,7 @@ router.post('/', function(req,res){
     var page = new Page({
     	title: req.body.title,
     	content: req.body.content,
+    	tags: req.body.tags.split(" ")
     })
     page.save().then(function(p){
         //res.redirect('/');
@@ -38,8 +39,8 @@ router.get('/:urlTitle', function(req,res, next){
         res.render('wikipage', foundPage);
       }).catch(next); // assuming you replaced mpromise
 });
-
-
+//in progress
+//router.get('/search')
 
 
 module.exports = router;
