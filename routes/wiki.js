@@ -18,18 +18,22 @@ router.get('/add', function(req,res){
     res.render('addpage');
 });
 
-router.post('/', function(req,res){
-    var page = new Page({
+router.post('/', function(req,res,next){
+    var userObject = {
+    	name: req.body.name,
+    	email: req.body.email
+    }
+    User.findOrCreate(userObject).then(function(user){
+    	 var page = new Page({
     	title: req.body.title,
     	content: req.body.content,
-    	tags: req.body.tags.split(" ")
-    })
-    page.save().then(function(p){
-        //res.redirect('/');
-        //res.json(p);
-        //res.send(p.urlTitle);
-        res.redirect(p.route);
+    	tags: req.body.tags.split(" "),
+    	author: user._id
     });
+    	 return page.save();
+	}).then(function(page){
+		res.redirect(page.route);
+	}).catch(next);
 });
 
 //in progress
