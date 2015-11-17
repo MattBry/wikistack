@@ -32,6 +32,28 @@ router.post('/', function(req,res){
     });
 });
 
+//in progress
+router.get('/search', function(req,res,next){
+    Page.findByTags( req.query.tags.split(" "))
+    .exec()
+    .then(function(pages){
+        res.render('index', {pages: pages});
+    }).catch(next);
+});
+
+router.get('/:urlTitle/similar', function(req,res, next){
+    Page.findOne({ urlTitle: req.params.urlTitle })
+    .exec()
+    .then(function(page){
+        return page.findSimilar()
+        .exec()
+        .then(function(similarPages){
+        res.render('index', {pages: similarPages});
+      }).catch(next);
+    }).catch(next);
+    
+});
+
 router.get('/:urlTitle', function(req,res, next){
     Page.findOne({ urlTitle: req.params.urlTitle })
     .exec()
@@ -39,8 +61,7 @@ router.get('/:urlTitle', function(req,res, next){
         res.render('wikipage', foundPage);
       }).catch(next); // assuming you replaced mpromise
 });
-//in progress
-//router.get('/search')
+
 
 
 module.exports = router;

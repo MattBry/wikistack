@@ -13,7 +13,7 @@ var pageSchema = new mongoose.Schema({
   status:   {type: String, enum: ['open', 'closed']},
   date:     {type: Date, default: Date.now},
   author:   {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  tags: {type: [String]}
+  tags: {type: Array}
 });
 
 pageSchema.virtual('route').get(function(){
@@ -32,6 +32,15 @@ pageSchema.pre('validate', function(next) {
   this.urlTitle = urlTitleMaker(this.title);
   next();
 });
+
+pageSchema.statics.findByTags = function (searchTags) {
+  return this.find({ tags: {$in: searchTags} });
+}
+
+pageSchema.methods.findSimilar = function() {
+  return this.model('Page').find({ tags: {$in: this.tags},
+                                  _id: {$ne: this._id}})
+}
 
 var userSchema = new mongoose.Schema({
   name: {type: String, required: true},
